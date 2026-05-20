@@ -280,6 +280,36 @@ public class binaryTrees {
         return false;
     }
 
+    public static int lcadistance(Node root, int n1, int n2) {
+        if (root == null) {
+            return -1;
+        }
+
+        if (root.data == n1) {
+            return 0;
+        }
+
+        int left = lcadistance(root.left, n1, n2);
+        int right = lcadistance(root.right, n1, n2);
+
+        if (left == -1 && right == -1) {
+            return -1;
+        } else if (left == -1) {
+            return right + 1;
+        } else if (right == -1) {
+            return left + 1;
+        } else {
+            return Math.min(left, right) + 1;
+        }
+    }
+
+    public static int minDistance(Node root, int n1, int n2) {
+        Node lca= lca(root, n1, n2);
+        int d1 = lcadistance(root, n1, lca.data);
+        int d2 = lcadistance(root, n2, lca.data);
+        return d1 + d2;
+    }
+
     // Lowest Common Ancestor
     public static Node lca(Node root, int n1, int n2) {
 
@@ -322,6 +352,26 @@ public class binaryTrees {
         return root;
     }
 
+    public static int Kancestor(Node root, int n, int k) {
+        if(root.data ==n){
+            return 0;
+        }
+
+        int left = Kancestor(root.left, n, k);
+        int right = Kancestor(root.right, n, k);
+
+        if(left == -1 && right == -1){
+            return -1;
+        }
+
+        int max = Math.max(left, right);
+
+        if(max + 1 == k){
+            System.out.println(root.data);
+        }
+        return max + 1;
+    }
+
     // Top View
     public static void topView(Node root) {
 
@@ -358,6 +408,28 @@ public class binaryTrees {
 
         System.out.println();
     }
+
+
+
+    public static int transform(Node root) {
+
+        if (root == null) {
+            return 0;
+        }
+        int left = transform(root.left);
+        int right = transform(root.right);
+
+        int data = root.data;
+
+        int newLeft= root.left == null ? 0 : root.left.data + left + right;
+        int newRight= root.right == null ? 0 : root.right.data + left + right;
+
+        root.data= newLeft + newRight+left+right;
+
+        return data;
+    }
+
+    
 
     public static void main(String[] args) {
 
