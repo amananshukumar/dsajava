@@ -10,17 +10,29 @@ public class mirrorBst {
         this.right = null;
     }
 }
-    public static void mirror(Node root){
+    public static Node createmirror(Node root){
+        if(root==null){
+            return null;
+        }
+        createmirror(root.left);
+        createmirror(root.right);
+        Node leftmirror= createmirror(root.left);
+        Node rightmirror= createmirror(root.right);
+        root.left=rightmirror;
+        root.right=leftmirror;
+        return root;
+        
+    }
+
+    public static void inorder(Node root){
         if(root==null){
             return;
         }
-        mirror(root.left);
-        mirror(root.right);
-        Node temp=root.left;
-        root.left=root.right;
-        root.right=temp;
-        
+        inorder(root.left);
+        System.out.print(root.data+" ");
+        inorder(root.right);
     }
+
     public static void main(String[] args) {
         Node root=new Node(1);
         root.left=new Node(2);
@@ -29,7 +41,7 @@ public class mirrorBst {
         root.left.right=new Node(5);
         root.right.left=new Node(6);
         root.right.right=new Node(7);
-        mirror(root);
+        createmirror(root);
         inorder(root);
     }
 }
